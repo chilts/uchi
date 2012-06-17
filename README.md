@@ -16,6 +16,8 @@ uchi - Unified Cache Handling Interface
 
 'uchi' is totally inspired by [CHI](http://search.cpan.org/dist/CHI/) by Jonathan Swartz.
 
+NOTE: This is not yet useable or complete and has had no official releases. Come back soon! :)
+
 ## Features ##
 
 ## Synopsis ##
