@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 //
-// uchi.js - Make factory class for 'Uchi'
+// memory.js - test the memory driver
 //
 // Copyright (c) 2012 AppsAttic Ltd - http://www.appsattic.com/
 //
@@ -14,47 +14,33 @@
 //
 // --------------------------------------------------------------------------------------------------------------------
 
-var memory = require('./driver/memory');
+var _ = require('underscore');
+var tap = require("tap"),
+    test = tap.test,
+    plan = tap.plan;
+
+var general = require('./general');
+
+// --------------------------------------------------------------------------------------------------------------------
+
+var uchi = require('../lib/uchi.js');
 var jsonSerializer = require('../lib/serializer/json.js');
+uchi.registerSerializer('json', jsonSerializer);
 
-var serializers = {
-    // these are loaded as necessary
-};
-
-var driver = {
-    'memory' : memory,
-};
+var cache = uchi({
+    'driver'     : 'memory',
+    'serializer' : 'json',
+});
 
 // --------------------------------------------------------------------------------------------------------------------
 
-function uchi(opts) {
-    opts = opts || {};
+var testOrder = [
+    'getEmptyKey', 'setKey', 'getNonEmptyKey'
+];
 
-    // check they have supplied a driver
-    if ( !opts.driver ) {
-        throw 'Supply a driver';
-    }
-
-    // check they have supplied a serializer
-    if ( !opts.serializer ) {
-        throw 'Supply a serializer name';
-    }
-
-    // check the serializer is one we know about
-    if ( !serializers[opts.serializer] ) {
-        throw 'Unknown serializer name';
-    }
-
-    // call the constructor on the driver and pass these opts through
-    return new driver[opts.driver](opts);
-}
-
-uchi.registerSerializer = function(name, serializer) {
-    serializers[name] = serializer;
-};
-
-// --------------------------------------------------------------------------------------------------------------------
-
-module.exports = exports = uchi;
+// call each test function in order
+testOrder.forEach(function(fn) {
+    general[fn](test, cache);
+});
 
 // --------------------------------------------------------------------------------------------------------------------
