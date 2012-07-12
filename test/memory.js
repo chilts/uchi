@@ -24,7 +24,10 @@ var general = require('./general');
 // --------------------------------------------------------------------------------------------------------------------
 
 var uchi = require('../lib/uchi.js');
+var memoryDriver = require('../lib/driver/memory.js');
 var jsonSerializer = require('../lib/serializer/json.js');
+
+uchi.registerDriver('memory', memoryDriver);
 uchi.registerSerializer('json', jsonSerializer);
 
 var cache = uchi({
