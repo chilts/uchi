@@ -24,7 +24,6 @@ var timestamp = new Date();
 // --------------------------------------------------------------------------------------------------------------------
 
 function getEmptyKey(test, cache) {
-    console.log();
     test('getting an empty/unknown key', function(t) {
         cache.get('user:unknown', function(err, user) {
             t.ok(!err, 'No error when getting an empty key');
@@ -39,7 +38,7 @@ function setKey(test, cache) {
         var user = {
             'username' : 'chilts',
             'password' : 'sekrit',
-            'inserted' : timestamp,
+            'inserted' : timestamp.toISOString(),
         };
         cache.set('user:chilts', user, function(err, user) {
             t.ok(!err, 'No error when setting a key');

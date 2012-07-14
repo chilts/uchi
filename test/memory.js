@@ -26,13 +26,20 @@ var general = require('./general');
 var uchi = require('../lib/uchi.js');
 var memoryDriver = require('../lib/driver/memory.js');
 var jsonSerializer = require('../lib/serializer/json.js');
+var msgpackSerializer = require('../lib/serializer/msgpack.js');
 
 uchi.registerDriver('memory', memoryDriver);
 uchi.registerSerializer('json', jsonSerializer);
+uchi.registerSerializer('msgp', msgpackSerializer);
 
-var cache = uchi({
+var cacheJson = uchi({
     'driver'     : 'memory',
     'serializer' : 'json',
+});
+
+var cacheMsgPack = uchi({
+    'driver'     : 'memory',
+    'serializer' : 'msgp',
 });
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -42,8 +49,10 @@ var testOrder = [
 ];
 
 // call each test function in order
-testOrder.forEach(function(fn) {
-    general[fn](test, cache);
+[cacheJson, cacheMsgPack].forEach(function(cache) {
+    testOrder.forEach(function(fn) {
+        general[fn](test, cache);
+    });
 });
 
 // --------------------------------------------------------------------------------------------------------------------
