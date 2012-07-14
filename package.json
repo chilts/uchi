@@ -1,0 +1,43 @@
+{
+    "name" : "uchi",
+    "description" : "Unified Cache Handling Interface.",
+    "version" : "0.1.0",
+    "author" : {
+        "name" :"Andrew Chilton",
+        "email" :"chilts@appsattic.com",
+        "url" :"http://www.chilts.org/"
+    },
+    "homepage" : "https://github.com/appsattic/uchi",
+    "contributors" : [],
+    "dependencies" : {
+        "underscore" : "~1.3.x",
+        "msgpack-js" : "~0.1.x"
+    },
+    "devDependencies" : {
+        "tap" : "~0.2.5"
+    },
+    "optionalDependencies" : {},
+    "main" : "lib/uchi.js",
+    "engines" : {
+        "node" : ">= 0.6.0"
+    },
+    "repository" : {
+        "type" : "git",
+        "url" : "git://github.com/appsattic/uchi.git"
+    },
+   "bugs" : {
+        "url" : "http://github.com/appsattic/uchi/issues",
+        "mail" : "chilts@appsattic.com"
+    },
+    "licenses" : [{
+        "type" : "MIT",
+        "url" : "http://github.com/appsattic/uchi/raw/master/LICENSE"
+    }],
+    "keywords" : [
+        "memcache", "redis", "mongodb", "membase", "file", "memory",
+        "cache", "caching", ""
+    ],
+    "scripts" : {
+        "test" : "tap test/*.js"
+    }
+}
