@@ -61,12 +61,27 @@ function getNonEmptyKey(test, cache) {
     });
 }
 
+function setKeyPage(test, cache) {
+    test('setting another key', function(t) {
+        var page = {
+            'name' : '/',
+            'html' : '<h1>Hello, World!</h1>',
+        };
+        cache.set('page:/', page, function(err) {
+            t.ok(!err, 'No error when setting a key');
+            t.equal(arguments.length, 1, 'Only one arg returned when setting a key');
+            t.end();
+        });
+    });
+}
+
 function getKeys1(test, cache) {
     test('getting the current keys', function(t) {
         cache.getKeys(function(err, keys) {
             t.ok(!err, 'No error when getting all the keys');
             t.ok(keys, 'A set of keys is returned');
-            t.deepEqual(keys, ['user:chilts'], 'The key list is correct');
+            t.equal(keys.length, 2, 'There are two keys');
+            t.deepEqual(keys, ['user:chilts', 'page:/'], 'The key list is correct');
             t.end();
         });
     });
@@ -74,6 +89,6 @@ function getKeys1(test, cache) {
 
 // --------------------------------------------------------------------------------------------------------------------
 
-module.exports = [getEmptyKey, setKey, getNonEmptyKey, getKeys1];
+module.exports = [getEmptyKey, setKey, getNonEmptyKey, setKeyPage, getKeys1];
 
 // --------------------------------------------------------------------------------------------------------------------
