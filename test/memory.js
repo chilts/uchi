@@ -44,15 +44,12 @@ var cacheMsgPack = uchi({
 
 // --------------------------------------------------------------------------------------------------------------------
 
-var testOrder = [
-    'getEmptyKey', 'setKey', 'getNonEmptyKey'
-];
-
 // call each test function in order
 [cacheJson, cacheMsgPack].forEach(function(cache) {
-    testOrder.forEach(function(fn) {
-        general[fn](test, cache);
+    general.forEach(function(fn, i) {
+        fn(test, cache);
     });
+    // here, reset the entire cache since we're using the same cache backend but with different serializers
 });
 
 // --------------------------------------------------------------------------------------------------------------------

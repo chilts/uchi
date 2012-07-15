@@ -61,10 +61,19 @@ function getNonEmptyKey(test, cache) {
     });
 }
 
+function getKeys1(test, cache) {
+    test('getting the current keys', function(t) {
+        cache.getKeys(function(err, keys) {
+            t.ok(!err, 'No error when getting all the keys');
+            t.ok(keys, 'A set of keys is returned');
+            t.deepEqual(keys, ['user:chilts'], 'The key list is correct');
+            t.end();
+        });
+    });
+}
+
 // --------------------------------------------------------------------------------------------------------------------
 
-exports.getEmptyKey    = getEmptyKey;
-exports.setKey         = setKey;
-exports.getNonEmptyKey = getNonEmptyKey;
+module.exports = [getEmptyKey, setKey, getNonEmptyKey, getKeys1];
 
 // --------------------------------------------------------------------------------------------------------------------
