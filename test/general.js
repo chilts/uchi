@@ -87,8 +87,30 @@ function getKeys1(test, cache) {
     });
 }
 
+function clearAll(test, cache) {
+    test('clearing the current keys', function(t) {
+        cache.clear(function(err) {
+            t.ok(!err, 'No error when clearing all the keys');
+            t.equal(arguments.length, 1, 'Only 1 thing is passed back');
+            t.end();
+        });
+    });
+}
+
+function getKeysShouldBeZero(test, cache) {
+    test('getting the current keys', function(t) {
+        cache.getKeys(function(err, keys) {
+            t.ok(!err, 'No error when getting all the keys');
+            t.ok(keys, 'A set of keys is returned');
+            t.equal(keys.length, 0, 'There are now zero keys');
+            t.deepEqual(keys, [], 'The key list is correct');
+            t.end();
+        });
+    });
+}
+
 // --------------------------------------------------------------------------------------------------------------------
 
-module.exports = [getEmptyKey, setKey, getNonEmptyKey, setKeyPage, getKeys1];
+module.exports = [getEmptyKey, setKey, getNonEmptyKey, setKeyPage, getKeys1, clearAll, getKeysShouldBeZero];
 
 // --------------------------------------------------------------------------------------------------------------------
