@@ -75,16 +75,51 @@ function setKeyPage(test, cache) {
     });
 }
 
-function getKeys1(test, cache) {
-    test('getting the current keys', function(t) {
-        cache.getKeys(function(err, keys) {
-            t.ok(!err, 'No error when getting all the keys');
-            t.ok(keys, 'A set of keys is returned');
-            t.equal(keys.length, 2, 'There are two keys');
-            t.deepEqual(keys, ['user:chilts', 'page:/'], 'The key list is correct');
+function setKeyPages(test, cache) {
+    test('setting another page key', function(t) {
+        var page = {
+            'name' : '/about',
+            'html' : '<h1>Hello, World!</h1>',
+        };
+        cache.set('page:/about', page, function(err) {
+            t.ok(!err, 'No error when setting a key');
+            t.equal(arguments.length, 1, 'Only one arg returned when setting a key');
             t.end();
         });
     });
+}
+
+function removeMultiNone(test, cache) {
+    test('clearing multi keys (none of which exist)', function(t) {
+        cache.removeMulti(['not-exist', 'not-there', 'not-found'], function(err) {
+            t.ok(!err, 'No error when removing keys');
+            t.equal(arguments.length, 1, 'Only 1 thing is passed back');
+            t.end();
+        });
+    });
+}
+
+function removeMultiOne(test, cache) {
+    test('clearing mult keys (none of which exist)', function(t) {
+        cache.removeMulti(['page:/about'], function(err) {
+            t.ok(!err, 'No error when removing a key');
+            t.equal(arguments.length, 1, 'Only 1 thing is passed back');
+            t.end();
+        });
+    });
+}
+
+// generator function to check the number of keys
+function checkKeysCount(number) {
+    return function checkKeysCount(test, cache) {
+        test('checking that ' + number + ' keys exist', function(t) {
+            cache.getKeys(function(err, keys) {
+                t.ok(!err, 'No error when getting all the keys');
+                t.equal(keys.length, number, 'There are ' + number + ' keys');
+                t.end();
+            });
+        });
+    };
 }
 
 function clearAll(test, cache) {
@@ -111,6 +146,22 @@ function getKeysShouldBeZero(test, cache) {
 
 // --------------------------------------------------------------------------------------------------------------------
 
-module.exports = [getEmptyKey, setKey, getNonEmptyKey, setKeyPage, getKeys1, clearAll, getKeysShouldBeZero];
+module.exports = [
+    getEmptyKey,
+    setKey,
+    checkKeysCount(1),
+    getNonEmptyKey,
+    setKeyPage,
+    checkKeysCount(2),
+    setKeyPages,
+    checkKeysCount(3),
+    removeMultiNone,
+    checkKeysCount(3),
+    removeMultiOne,
+    checkKeysCount(2),
+    clearAll,
+    checkKeysCount(0),
+    getKeysShouldBeZero
+];
 
 // --------------------------------------------------------------------------------------------------------------------
